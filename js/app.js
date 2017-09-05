@@ -2,7 +2,7 @@
 function init_app() {
     "use strict";
 
-    // Load the snazzy info window script once google map is initialized.
+    // Load snazzy info window script once google map is initialized.
     $.getScript("bower_components/snazzy-info-window/dist/snazzy-info-window.js");
 
 
@@ -14,10 +14,10 @@ function init_app() {
         };
     }
 
-
     /* Defaults */
     var defaultLocalLocation = {lat: -37.810432, lng: 144.96616};
     var map = {};
+    var info = {};
     // Snazzy Map Style - https://snazzymaps.com/style/8097/wy
     var mapStyle = [{
         "featureType": "landscape",
@@ -40,6 +40,7 @@ function init_app() {
     }];
 
 
+    /* Info Window Template */
     var html = '<section class="custom-content">\n' +
         '            <h1 class="custom-header">\n' +
         '                {{title}}\n' +
@@ -60,7 +61,6 @@ function init_app() {
         '        </section>';
 
     var template = Handlebars.compile(html);
-
     Handlebars.registerHelper('dotdotdot', function (str) {
         if (str.length > 1000) {
             return str.substring(0, 1000) + '...';
@@ -91,7 +91,31 @@ function init_app() {
         }
     };
 
-    /* Gets Content from Wikipedia */
+    /* Method to show info window at the provided location */
+    var showInfoWindow = function (location, content) {
+        var tmpl = {};
+        if (content.error) {
+            tmpl = template({
+                title: name,
+                link: "",
+                extract: "",
+                error_msg: "Error while getting information from wikipedia.",
+                has_error: true
+            });
+        } else {
+            tmpl = template({
+                title: content.title,
+                link: content.pageid,
+                extract: content.extract,
+                has_error: false
+            });
+        }
+        info.setPosition(location);
+        info.setContent(tmpl);
+        info.open();
+    };
+
+    /* Get Content from Wikipedia */
     var getContent = function (info_url, callback) {
 
         $.ajax({
@@ -127,7 +151,8 @@ function init_app() {
     };
 
 
-    /* Creates a marker and infowindow */
+    /* Creates a new marker. Also registers a listener to show infowindow with the
+     relevant content once the marker is clicked. */
     var createMarker = function (id, name, location, info_url, callback) {
         var marker = new google.maps.Marker({
             position: location,
@@ -135,57 +160,41 @@ function init_app() {
             animation: google.maps.Animation.DROP
         });
 
-        marker.addListener('click', function() {
+        marker.addListener('click', function () {
             toggleBounce(marker);
         });
 
         getContent(info_url, function (content) {
-            // Add a Snazzy Info Window to the marker
-            var tmpl = {};
-            if (content.error) {
-                tmpl = template({
-                    title: name,
-                    link: "",
-                    extract: "",
-                    error_msg: "Error while getting information from wikipedia.",
-                    has_error: true
-                });
-            } else {
-                tmpl = template({
-                    title: content.title,
-                    link: content.pageid,
-                    extract: content.extract,
-                    has_error: false
-                });
-            }
-
-            var info = new SnazzyInfoWindow({
-                marker: marker,
-
-                edgeOffset: {
-                    top: 50,
-                    right: 60,
-                    bottom: 50
-                },
-                border: false,
-                content: tmpl
+            marker.addListener('click', function () {
+                showInfoWindow(marker.position, content);
             });
-
-
+            callback(marker, content);
         });
 
-        callback(marker);
     };
 
 
     /* custom binding handler for maps  */
     ko.bindingHandlers.mapPanel = {
         init: function (element) {
+            // Initialize google map
             map = new google.maps.Map(element, {
                 zoom: 13,
                 styles: mapStyle
             });
             centerMap(defaultLocalLocation);
+
+            // Initialize Info window
+            info = new SnazzyInfoWindow({
+                map: map,
+                edgeOffset: {
+                    top: 50,
+                    right: 60,
+                    bottom: 50
+                },
+                border: false,
+                content: ''
+            });
         }
     };
 
@@ -235,8 +244,9 @@ function init_app() {
                             changeObj.value.name,
                             changeObj.value.location,
                             changeObj.value.info_url,
-                            function (marker) {
+                            function (marker, content) {
                                 changeObj.value.marker = marker;
+                                changeObj.value.details = content;
                             });
                     }
                 } else if (changeObj.status === "deleted") {
@@ -246,28 +256,40 @@ function init_app() {
         }, null, "arrayChange");
 
         this.selectPlace = function (place) {
-
             //'selected' currently holds the previously selected place. Disable bounce for that.
             if (self.selected && self.selected.marker && self.selected.name !== place.name) {
                 disableBounce(self.selected.marker);
             }
             toggleBounce(place.marker);
+
+            //Place details should have been set while creating the marker for this place
+            // . If not, fetch it again.
+            if (!place.details) {
+                getContent(place.info_url, function (content) {
+                    place.details = content;
+                    showInfoWindow(place.location, place.details);
+                });
+            } else {
+                showInfoWindow(place.location, place.details);
+            }
+
             self.selected = place;
+
         };
     };
 
 
     $.getJSON('city-data.json')
         .done(function (data) {
-        var places = data.places;
-        var viewModel = new ViewModel(places);
-        ko.applyBindings(viewModel);
-        // forcing arrayChange on computed observable 'filteredPlaces'.
-        viewModel.places.filter('');
-    }).fail(function(jqxhr, textStatus, error) {
+            var places = data.places;
+            var viewModel = new ViewModel(places);
+            ko.applyBindings(viewModel);
+            // forcing arrayChange on computed observable 'filteredPlaces'.
+            viewModel.places.filter('');
+        }).fail(function (jqxhr, textStatus, error) {
         var err = textStatus + ", " + error;
         alert("Error while getting city data. Please see the console for details.");
-        console.log( "Request Failed: " + err );
+        console.log("Request Failed: " + err);
     });
 
 }
