@@ -1,5 +1,4 @@
-/* global console, map, google, ko, SnazzyInfoWindow, Handlebars, $*/
-
+/* global console, map, google, ko, SnazzyInfoWindow, Handlebars $*/
 function init_app() {
     "use strict";
 
@@ -244,4 +243,10 @@ function init_app() {
         viewModel.places.filter('');
     });
 
+}
+
+/* global alert */
+function mapError() {
+    "use strict";
+    alert("Error while loading google maps. Please see the console for details.");
 }
