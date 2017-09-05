@@ -31,4 +31,21 @@ Before we can use this application, we will have to provide a valid the google m
 
 ## Running the app
 
-    # Just open index.html in a browser.
+Serve the project folder using a http webserver.
+
+### Node JS
+    # Install the http-server module globally
+    npm install -g http-server
+    
+    # Serve the application
+    cd udacity-project-gmaps
+    http-server -p 8000
+    
+### Python 3
+    cd udacity-project-gmaps
+    python -m http.server 8000
+    
+### Python 2
+    cd udacity-project-gmaps
+    python -m SimpleHTTPServer 8080
+    
