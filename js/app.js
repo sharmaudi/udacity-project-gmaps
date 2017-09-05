@@ -1,11 +1,18 @@
 /* global console, map, google, ko, SnazzyInfoWindow, Handlebars, $ */
 function init_app() {
     "use strict";
-
     // Load snazzy info window script once google map is initialized.
-    $.getScript("bower_components/snazzy-info-window/dist/snazzy-info-window.js");
+    $.getScript("bower_components/snazzy-info-window/dist/snazzy-info-window.js").done(function () {
+        run_app();
+    }).fail(function (jqxhr, textStatus, exception) {
+        var err = textStatus + ", " + exception;
+        console.log(err);
+        alert("Error while loading info window script. See console for details");
+    });
+}
 
-
+function run_app() {
+    "use strict";
     /* Polyfill for supporting startsWith on older browser*/
     /* Source https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith    */
     if (!String.prototype.startsWith) {
@@ -90,6 +97,7 @@ function init_app() {
             marker.setAnimation(null);
         }
     };
+
 
     /* Method to show info window at the provided location */
     var showInfoWindow = function (location, content) {
@@ -293,6 +301,7 @@ function init_app() {
     });
 
 }
+
 
 /* global alert */
 function mapError() {
