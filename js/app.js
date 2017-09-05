@@ -70,34 +70,37 @@
 
     /* Gets Content from Wikipedia */
     var getContent = function (info_url, callback) {
+
         $.ajax({
             url: info_url,
             dataType: 'json',
             type: 'GET',
             headers: {
                 'Api-User-Agent': 'Example/1.0'
-            },
-            success: function (data) {
-                var pages = data.query.pages;
-                var content = {};
-                for (var key in pages) {
-                    if (pages.hasOwnProperty(key)) {
-                        content = pages[key];
-                        break;
-                    }
-                }
-
-                if (!content) {
-                    content = {
-                        title: name,
-                        extract: 'Error while getting extract',
-                        link: ''
-                    };
-                }
-
-                callback(content);
             }
+        }).done(function (data) {
+            var pages = data.query.pages;
+            var content = {};
+            for (var key in pages) {
+                if (pages.hasOwnProperty(key)) {
+                    content = pages[key];
+                    break;
+                }
+            }
+            if (!content) {
+                content = {
+                    error: 'Error while getting extract'
+                };
+            }
+
+            callback(content);
+        }).fail(function () {
+            var content = {
+                error: 'Error while getting extract from wikipedia'
+            };
+            callback(content);
         });
+
     };
 
 
@@ -112,6 +115,24 @@
 
         getContent(info_url, function (content) {
             // Add a Snazzy Info Window to the marker
+            var tmpl = {};
+            if (content.error) {
+                tmpl = template({
+                    title: name,
+                    link: "",
+                    extract: "",
+                    error_msg: "Error while getting information from wikipedia.",
+                    has_error: true
+                });
+            } else {
+                tmpl = template({
+                    title: content.title,
+                    link: content.pageid,
+                    extract: content.extract,
+                    has_error: false
+                });
+            }
+
             var info = new SnazzyInfoWindow({
                 marker: marker,
 
@@ -121,11 +142,7 @@
                     bottom: 50
                 },
                 border: false,
-                content: template({
-                    title: content.title,
-                    link: content.pageid,
-                    extract: content.extract
-                })
+                content: tmpl
             });
 
 
