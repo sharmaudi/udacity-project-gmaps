@@ -1,4 +1,4 @@
-/* global console, map, google, ko, SnazzyInfoWindow, Handlebars $*/
+/* global console, map, google, ko, SnazzyInfoWindow, Handlebars, $ */
 function init_app() {
     "use strict";
 
@@ -40,7 +40,7 @@ function init_app() {
     }];
 
 
-    var htm = '<section class="custom-content">\n' +
+    var html = '<section class="custom-content">\n' +
         '            <h1 class="custom-header">\n' +
         '                {{title}}\n' +
         '            </h1>\n' +
@@ -59,7 +59,7 @@ function init_app() {
         '            </div>\n' +
         '        </section>';
 
-    var template = Handlebars.compile(htm);
+    var template = Handlebars.compile(html);
 
     Handlebars.registerHelper('dotdotdot', function (str) {
         if (str.length > 1000) {
@@ -254,12 +254,17 @@ function init_app() {
     };
 
 
-    $.getJSON('city-data.json', function (data) {
+    $.getJSON('city-data.json')
+        .done(function (data) {
         var places = data.places;
         var viewModel = new ViewModel(places);
         ko.applyBindings(viewModel);
         // forcing arrayChange on computed observable 'filteredPlaces'.
         viewModel.places.filter('');
+    }).fail(function(jqxhr, textStatus, error) {
+        var err = textStatus + ", " + error;
+        alert("Error while getting city data. Please see the console for details.");
+        console.log( "Request Failed: " + err );
     });
 
 }
