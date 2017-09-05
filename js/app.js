@@ -40,7 +40,26 @@ function init_app() {
     }];
 
 
-    var template = Handlebars.compile($('#marker-content-template').html());
+    var htm = '<section class="custom-content">\n' +
+        '            <h1 class="custom-header">\n' +
+        '                {{title}}\n' +
+        '            </h1>\n' +
+        '            <div class="custom-body">\n' +
+        '                <div class="col-md-12">\n' +
+        '                    {{#if has_error}}\n' +
+        '                    <p class="has-error text-danger">{{error_msg}}</p>\n' +
+        '                    {{else}}\n' +
+        '                    <p>{{dotdotdot extract}}</p>\n' +
+        '                    <p>\n' +
+        '                        <a href="http:///en.wikipedia.org/?curid={{link}}" target="_blank">Read More:\n' +
+        '                            Wikipedia</a>\n' +
+        '                    </p>\n' +
+        '                    {{/if}}\n' +
+        '                </div>\n' +
+        '            </div>\n' +
+        '        </section>';
+
+    var template = Handlebars.compile(htm);
 
     Handlebars.registerHelper('dotdotdot', function (str) {
         if (str.length > 1000) {
