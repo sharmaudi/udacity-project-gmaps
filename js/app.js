@@ -1,6 +1,11 @@
 /* global console, map, google, ko, SnazzyInfoWindow, Handlebars, $*/
-(function () {
+
+function init_app() {
     "use strict";
+
+    // Load the snazzy info window script once google map is initialized.
+    $.getScript("bower_components/snazzy-info-window/dist/snazzy-info-window.js");
+
 
     /* Polyfill for supporting startsWith on older browser*/
     /* Source https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith    */
@@ -239,5 +244,4 @@
         viewModel.places.filter('');
     });
 
-
-})();
+}
