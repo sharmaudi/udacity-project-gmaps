@@ -135,6 +135,9 @@ function init_app() {
             animation: google.maps.Animation.DROP
         });
 
+        marker.addListener('click', function() {
+            toggleBounce(marker);
+        });
 
         getContent(info_url, function (content) {
             // Add a Snazzy Info Window to the marker
