@@ -193,9 +193,9 @@ function init_app() {
     /* Place Model */
     var Place = function (id, name, location, type, info_url) {
         this.id = id;
-        this.name = ko.observable(name);
-        this.location = ko.observable(location);
-        this.type = ko.observable(type);
+        this.name = name;
+        this.location = location;
+        this.type = type;
         this.info_url = info_url;
     };
 
@@ -214,8 +214,8 @@ function init_app() {
                 return self.places();
             } else {
                 return ko.utils.arrayFilter(self.places(), function (place) {
-                    if (place.name()) {
-                        return place.name().toLowerCase().startsWith(self.places.filter().toLowerCase());
+                    if (place.name) {
+                        return place.name.toLowerCase().startsWith(self.places.filter().toLowerCase());
                     } else {
                         return false;
                     }
@@ -229,18 +229,18 @@ function init_app() {
             changes.map(function (changeObj) {
                 if (changeObj.status === "added") {
                     if (changeObj.value.marker) {
-                        changeObj.value.marker.setMap(map);
+                        changeObj.value.marker.setVisible(true);
                     } else {
                         createMarker(changeObj.value.id,
-                            changeObj.value.name(),
-                            changeObj.value.location(),
+                            changeObj.value.name,
+                            changeObj.value.location,
                             changeObj.value.info_url,
                             function (marker) {
                                 changeObj.value.marker = marker;
                             });
                     }
                 } else if (changeObj.status === "deleted") {
-                    changeObj.value.marker.setMap(null);
+                    changeObj.value.marker.setVisible(false);
                 }
             });
         }, null, "arrayChange");
@@ -248,7 +248,7 @@ function init_app() {
         this.selectPlace = function (place) {
 
             //'selected' currently holds the previously selected place. Disable bounce for that.
-            if (self.selected && self.selected.marker && self.selected.name() !== place.name()) {
+            if (self.selected && self.selected.marker && self.selected.name !== place.name) {
                 disableBounce(self.selected.marker);
             }
             toggleBounce(place.marker);
