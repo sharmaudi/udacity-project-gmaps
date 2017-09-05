@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet"
+          href="bower_components/bootstrap-side-navbar/source/assets/stylesheets/navbar-fixed-side.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="bower_components/snazzy-info-window/dist/snazzy-info-window.min.css">
+    <title>Document</title>
+
+
+    <script id="marker-content-template" type="text/x-handlebars-template">
+        <section class="custom-content">
+            <h1 class="custom-header">
+                {{title}}
+            </h1>
+            <div class="custom-body">
+                <div class="col-md-12">
+                    <p>{{dotdotdot extract}}</p>
+                    <p>
+                        <a href="http:///en.wikipedia.org/?curid={{link}}" target="_blank">Read More:
+                            Wikipedia</a>
+                    </p>
+                </div>
+
+            </div>
+        </section>
+    </script>
+
+</head>
+<body>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-5 col-md-4 col-lg-3">
+            <nav class="navbar navbar-fixed-side navbar-inverse">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target=".navbar-ex1-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">My Hood</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse navbar-ex1-collapse">
+
+                    <ul class="nav navbar-nav">
+                        <input data-bind="textInput: places.filter" class="form-control" placeholder="Filter places">
+                    </ul>
+
+
+                    <ul class="nav navbar-nav" data-bind="foreach: filteredPlaces">
+
+
+                        <li><a href="#" data-bind="text: name, click: $parent.selectPlace"></a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </nav>
+        </div>
+        <div class="col-sm-7 col-md-8 col-lg-9 no-padding">
+            <div id="map" data-bind="mapPanel"></div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="node_modules/knockout/build/output/knockout-latest.js"></script>
+<script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="bower_components/handlebars/handlebars.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=GMAPS_API_KEY"></script>
+<script type="text/javascript" src="bower_components/snazzy-info-window/dist/snazzy-info-window.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

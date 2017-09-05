@@ -1,0 +1,104 @@
+{
+  "places": [
+    {
+      "id": 1,
+      "name": "Melbourne Cricket Ground",
+      "location": {
+        "lat": -37.820050,
+        "lng": 144.983315
+      },
+      "type": "stadium",
+      "info_url": "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=Melbourne_Cricket_Ground&origin=*"
+    },
+    {
+      "id": 2,
+      "name": "Rod Laver Arena",
+      "location": {
+        "lat": -37.821618,
+        "lng": 144.978562
+      },
+      "type": "stadium",
+      "info_url": "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=Rod_Laver_Arena&origin=*"
+    },
+    {
+      "id": 3,
+      "name": "Royal Botanical Gardens Melbourne",
+      "location": {
+        "lat": -37.830343,
+        "lng": 144.979659
+      },
+      "type": "park",
+      "info_url": "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=Royal_Botanic_Gardens,_Melbourne&origin=*"
+    },
+    {
+      "id": 4,
+      "name": "Melbourne Museum",
+      "location": {
+        "lat": -37.803146,
+        "lng": 144.971624
+      },
+      "type": "museum",
+      "info_url": "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=Melbourne_Museum&origin=*"
+    },
+    {
+      "id": 5,
+      "name": "Queen Victoria Market",
+      "location": {
+        "lat": -37.807622,
+        "lng": 144.956775
+      },
+      "type": "shop",
+      "info_url": "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=Queen_Victoria_Market&origin=*"
+    },
+    {
+      "id": 6,
+      "name": "Federation Square",
+      "location": {
+        "lat": -37.817890,
+        "lng": 144.968863
+      },
+      "type": "building",
+      "info_url": "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=Federation_Square&origin=*"
+    },
+    {
+      "id": 7,
+      "name": "Flinders Street Railway Station",
+      "location": {
+        "lat":-37.818339,
+        "lng": 144.965977
+      },
+      "type": "building",
+      "info_url": "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=Flinders_Street_railway_station&origin=*"
+    },
+    {
+      "id": 8,
+      "name": "Sea Life Aquarium",
+      "location": {
+        "lat":-37.820754,
+        "lng": 144.958220
+      },
+      "type": "building",
+      "info_url": "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=Sea_Life_Melbourne_Aquarium&origin=*"
+    },
+    {
+      "id": 9,
+      "name": "Sidney Myer Music Bowl",
+      "location": {
+        "lat":-37.823330,
+        "lng": 144.974661
+      },
+      "type": "venue",
+      "info_url": "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=Sidney_Myer_Music_Bowl&origin=*"
+    },
+    {
+      "id": 10,
+      "name": "National Gallery of Victoria",
+      "location": {
+        "lat":-37.822567,
+        "lng": 144.968932
+      },
+      "type": "building",
+      "info_url": "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=National_Gallery_of_Victoria&origin=*"
+    }
+  ]
+}

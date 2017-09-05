@@ -1,0 +1,23 @@
+{
+  "name": "udacity-project-gmaps",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Udit Sharma <sharma.uditt@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-side-navbar": "^1.0.1",
+    "snazzy-info-window": "^1.1.0",
+    "handlebars": "^4.0.10"
+  }
+}

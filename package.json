@@ -1,0 +1,17 @@
+{
+  "name": "udacity-project-gmaps",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "director": "^1.2.8",
+    "jquery": "^3.2.1",
+    "knockout": "^3.4.2"
+  }
+}

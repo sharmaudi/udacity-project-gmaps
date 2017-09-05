@@ -1,0 +1,9 @@
+# Bower dependency directory (https://bower.io/)
+bower_components
+
+# Dependency directories
+node_modules/
+
+# Personal stuff
+index.mine.html
+
