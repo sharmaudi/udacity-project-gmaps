@@ -237,7 +237,7 @@ function runApp() {
             } else {
                 return ko.utils.arrayFilter(self.places(), function (place) {
                     if (place.name) {
-                        return place.name.toLowerCase().startsWith(self.places.filter().toLowerCase());
+                        return (place.name.toLowerCase().indexOf(self.places.filter().toLowerCase()) >= 0);
                     } else {
                         return false;
                     }
