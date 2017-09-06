@@ -25,6 +25,7 @@ function run_app() {
     var defaultLocalLocation = {lat: -37.810432, lng: 144.96616};
     var map = {};
     var info = {};
+    var currentlyAnimatedMarker = null;
     // Snazzy Map Style - https://snazzymaps.com/style/8097/wy
     var mapStyle = [{
         "featureType": "landscape",
@@ -87,7 +88,14 @@ function run_app() {
         if (marker.getAnimation() !== null) {
             marker.setAnimation(null);
         } else {
+            if (currentlyAnimatedMarker && marker !== currentlyAnimatedMarker) {
+                disableBounce(currentlyAnimatedMarker);
+            }
             marker.setAnimation(google.maps.Animation.BOUNCE);
+
+            // Remove marker animation in 10 seconds
+            setTimeout(function(){ marker.setAnimation(null); }, 700 * 10);
+            currentlyAnimatedMarker = marker;
         }
     };
 
@@ -264,12 +272,7 @@ function run_app() {
         }, null, "arrayChange");
 
         this.selectPlace = function (place) {
-            //'selected' currently holds the previously selected place. Disable bounce for that.
-            if (self.selected && self.selected.marker && self.selected.name !== place.name) {
-                disableBounce(self.selected.marker);
-            }
             toggleBounce(place.marker);
-
             //Place details should have been set while creating the marker for this place
             // . If not, fetch it again.
             if (!place.details) {
@@ -280,8 +283,6 @@ function run_app() {
             } else {
                 showInfoWindow(place.location, place.details);
             }
-
-            self.selected = place;
 
         };
     };
