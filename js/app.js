@@ -1,9 +1,9 @@
 /* global console, map, google, ko, SnazzyInfoWindow, Handlebars, $ */
-function init_app() {
+function initApp() {
     "use strict";
     // Load snazzy info window script once google map is initialized.
     $.getScript("bower_components/snazzy-info-window/dist/snazzy-info-window.js").done(function () {
-        run_app();
+        runApp();
     }).fail(function (jqxhr, textStatus, exception) {
         var err = textStatus + ", " + exception;
         console.log(err);
@@ -11,7 +11,7 @@ function init_app() {
     });
 }
 
-function run_app() {
+function runApp() {
     "use strict";
     /* Polyfill for supporting startsWith on older browser*/
     /* Source https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith    */
@@ -92,9 +92,6 @@ function run_app() {
                 disableBounce(currentlyAnimatedMarker);
             }
             marker.setAnimation(google.maps.Animation.BOUNCE);
-
-            // Remove marker animation in 10 seconds
-            setTimeout(function(){ marker.setAnimation(null); }, 700 * 10);
             currentlyAnimatedMarker = marker;
         }
     };
